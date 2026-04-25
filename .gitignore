@@ -1,0 +1,17 @@
+*.o
+*.out
+*.exe
+programa
+*.dSYM/
+.DS_Store
+.AppleDouble
+.LSOverride
+.vscode/
+.idea/
+*.swp
+*.swo
+*.log
+*.tmp
+Lab3_Octree/data/output/
+*.obj
+*.xyz
