@@ -36,6 +36,40 @@ vector<Punto> cargarArchivo(const string& filename) {
     return data;
 }
 
+void guardarClustersCSV(const string& filename, const vector<Punto>& data, const ResultadoKM& res) {
+    ofstream csv(filename);
+    csv << "x,y,cluster,tipo\n";
+
+    for (int i = 0; i < (int)data.size(); i++) {
+        csv << data[i].x << "," << data[i].y << "," << res.asignaciones[i] << "," << "punto\n";
+    }
+
+    for (int j = 0; j < (int)res.centroides.size(); j++) {
+        csv << res.centroides[j].x << "," << res.centroides[j].y << "," << j << "," << "centroide\n";
+    }
+}
+
+void generarVisualizacionesClusters(const vector<Punto>& data) {
+    int k = 18;
+    int maxIter = 300;
+
+    for (int run = 0; run < 3; run++) {
+        mt19937 rngBrute(run);
+        auto resBrute = kMeansBrute(data, k, maxIter, rngBrute);
+
+        string filenameBrute = "clusters_brute_run_" + to_string(run + 1) + ".csv";
+        guardarClustersCSV(filenameBrute, data, resBrute);
+
+        mt19937 rngKD(run);
+        auto resKD = ArbolKDkMeans(data, k, maxIter, rngKD);
+
+        string filenameKD = "clusters_kdtree_run_" + to_string(run + 1) + ".csv";
+        guardarClustersCSV(filenameKD, data, resKD);
+
+        cout << "Run " << run + 1 << " guardado: " << filenameBrute << " y " << filenameKD << "\n";
+    }
+}
+
 void experimento1(const vector<Punto>& data) {
     cout << "\n=== EXPERIMENTO 1: k=18, 10 ejecuciones ===\n";
     cout << fixed << setprecision(4);
@@ -140,6 +174,7 @@ int main(int argc, char* argv[]) {
     experimento1(data);
     experimento2(data);
     experimento3(data);
+    generarVisualizacionesClusters(data);
 
     return 0;
 }
