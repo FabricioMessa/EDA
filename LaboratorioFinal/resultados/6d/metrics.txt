@@ -1,0 +1,5 @@
+metric,classic,kdtree
+total_points,850,850
+outliers,46,46
+n_clusters,4,4
+silhouette,0.7134,0.7134

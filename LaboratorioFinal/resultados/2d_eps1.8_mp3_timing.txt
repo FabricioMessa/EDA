@@ -1,0 +1,3 @@
+algoritmo,tiempo_ms,clusters,outliers
+clasico,1.61242,3,5
+kdtree,1.50379,3,5
